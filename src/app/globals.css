@@ -1,0 +1,444 @@
+@import "tailwindcss";
+
+/* Tema dipilih lewat kelas .dark di <html>, bukan media query: pengguna bisa
+   mengalahkan preferensi sistem. Token di bawah hanya diganti nilainya. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Unggas.net UI v7 — putih bersih.
+  Kanvas putih tanpa tint besar. Kerangka dibaca dari garis rambut dan langkah
+  abu-abu netral, bukan dari bidang hijau. Hijau daun dipakai hanya sebagai
+  aksen: tombol terisi, tautan, dan satu angka notifikasi. Judul memakai sans
+  yang sama dengan UI; serif tinggal di isi post supaya bacaan panjang tetap
+  enak.
+
+  Setiap pasangan teks–latar diukur AA:
+  putih di atas accent 5.0:1, ink-strong di putih 18.9:1, ink-faint di putih
+  5.2:1, ink-soft di putih 7.8:1, control di putih 3.2:1 (WCAG 1.4.11).
+*/
+@theme {
+  /* Permukaan */
+  --color-ground: #ffffff;      /* kanvas halaman */
+  --color-surface: #ffffff;     /* kartu, panel, kontrol */
+  --color-raised: #fafbfa;      /* blok tenang di dalam kartu */
+  --color-wash: #f6f7f5;        /* panel netral, isian toolbar */
+  --color-sunken: #eef0ed;      /* hover nav, kontrol sekunder */
+
+  /* Garis */
+  --color-border: #e4e7e3;      /* tepi kartu, batas panel */
+  --color-rule: #eef0ec;        /* pemisah baris */
+  --color-control: #8a938c;     /* batas kontrol — 3.2:1 di putih */
+
+  /* Teks */
+  --color-ink: #161a18;         /* teks isi */
+  --color-ink-strong: #0a0e0c;  /* judul & aksi utama */
+  --color-ink-soft: #4a544e;    /* teks sekunder */
+  --color-ink-faint: #68726c;   /* meta, waktu, label */
+
+  /* Aksen — satu-satunya keluarga warna di UI */
+  --color-accent: #2e7d32;
+  --color-accent-hover: #246428;
+  --color-accent-deep: #246428;
+  --color-accent-ink: #1b5e20;
+  --color-accent-soft: #eef7ef;
+  --color-accent-track: #d8e8d9;
+  --color-on-accent: #ffffff;
+
+  /* Bidang terbalik: blok ajakan di landing, tombol utama hero. Di tema
+     terang blok hitam, di tema gelap blok terang — arahnya memang dibalik. */
+  --color-invert: #0a0e0c;
+  --color-on-invert: #ffffff;
+
+  /* Status */
+  --color-warn-soft: #fef3c7;
+  --color-warn-line: #fde68a;
+  --color-warn-ink: #92400e;
+  --color-danger: #bf000f;
+  --color-danger-soft: #fdecec;
+  --color-danger-line: #f4c7c9;
+
+  /* Tint avatar — 6 seri deterministik. Teks 6.37–7.00:1 di bg-nya;
+     border ~1.8–1.9:1 di putih supaya tepi terbaca. */
+  --color-av-hijau: #e8f5e9;      --color-av-hijau-ink: #1b5e20;      --color-av-hijau-line: #9ac59e;
+  --color-av-amber: #fef3c7;      --color-av-amber-ink: #92400e;      --color-av-amber-line: #e8b93a;
+  --color-av-biru: #e0f2fe;       --color-av-biru-ink: #075985;       --color-av-biru-line: #7cc7ee;
+  --color-av-oranye: #ffedd5;     --color-av-oranye-ink: #9a3412;     --color-av-oranye-line: #f5b473;
+  --color-av-teal: #ccfbf1;       --color-av-teal-ink: #115e59;       --color-av-teal-line: #42d3bb;
+  --color-av-rose: #ffe4e6;       --color-av-rose-ink: #9f1239;       --color-av-rose-line: #f9a6b0;
+
+  --font-display: var(--font-jakarta), system-ui, sans-serif;
+  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-body: var(--font-jakarta), system-ui, sans-serif;
+}
+
+/* Tema gelap — hijau arang, bukan hitam pekat. Aksen hijau tetap sama supaya
+   tombol terisi dan lencana tidak berubah warna antar tema. Setiap pasangan
+   diukur AA: ink 15.5:1, ink-soft 9.7:1, ink-faint 6.3:1, putih di accent
+   5.1:1, accent-ink di ground 10.3:1, control di surface 3.2:1. */
+.dark {
+  color-scheme: dark;
+
+  --color-ground: #0e1210;
+  --color-surface: #141a16;
+  --color-raised: #181f1a;
+  --color-wash: #1b231d;
+  --color-sunken: #232c25;
+
+  --color-border: #2b352e;
+  --color-rule: #232c26;
+  --color-control: #5f6d63;
+
+  --color-ink: #e4eae5;
+  --color-ink-strong: #f5f8f6;
+  --color-ink-soft: #b0bdb3;
+  --color-ink-faint: #8a998f;
+
+  --color-accent-hover: #33853a;
+  --color-accent-deep: #9ad9a0;
+  --color-accent-ink: #8fce95;
+  --color-accent-soft: #16281a;
+  --color-accent-track: #2d4a31;
+
+  --color-invert: #f2f6f3;
+  --color-on-invert: #0b0f0c;
+
+  --color-warn-soft: #33290f;
+  --color-warn-line: #5a4718;
+  --color-warn-ink: #f0c86b;
+  --color-danger: #ff9ea3;
+  --color-danger-soft: #35171a;
+  --color-danger-line: #5c2a2f;
+
+  /* Tint avatar versi gelap: latar pekat, teks terang, garis tengah. */
+  --color-av-hijau: #16301a;   --color-av-hijau-ink: #a9d6ad;   --color-av-hijau-line: #3d6b42;
+  --color-av-amber: #332912;   --color-av-amber-ink: #f0cd86;   --color-av-amber-line: #6b5526;
+  --color-av-biru: #122a38;    --color-av-biru-ink: #9ed4f0;    --color-av-biru-line: #2c5b74;
+  --color-av-oranye: #35200f;  --color-av-oranye-ink: #f3bd8a;  --color-av-oranye-line: #6d4527;
+  --color-av-teal: #0f2f2b;    --color-av-teal-ink: #8fe0d3;    --color-av-teal-line: #2c5c55;
+  --color-av-rose: #351820;    --color-av-rose-ink: #f2a9b7;    --color-av-rose-line: #6b3340;
+}
+
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@layer components {
+  /* === Tombol ===
+     Satu gaya terisi: hijau daun penuh. Ia satu-satunya bidang hijau penuh di
+     halaman; sisanya tint. Tinggi 36px di desktop; .btn-lg 44px untuk aksi
+     utama di ponsel. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-sm {
+    min-height: 30px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .btn-lg {
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 15px;
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  .btn-primary:hover {
+    background: var(--color-accent-hover);
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn-outline {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border-color: var(--color-border);
+  }
+  .btn-outline:hover {
+    background: var(--color-wash);
+    border-color: var(--color-control);
+    color: var(--color-ink-strong);
+  }
+  .btn-quiet {
+    background: transparent;
+    color: var(--color-ink-soft);
+  }
+  .btn-quiet:hover {
+    background: var(--color-wash);
+    color: var(--color-ink-strong);
+  }
+
+  /* === Kartu, panel, well ===
+     Tiga tingkat: kartu (surface), panel netral (wash), dan panel aksen yang
+     dipakai hemat. Garis rambut, radius 12, tanpa bayangan. */
+  .panel {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+  }
+  .well {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-wash);
+  }
+  .panel-accent {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+  }
+
+  /* === Kontrol form ===
+     Font 16px supaya iOS tidak men-zoom saat fokus. */
+  .input {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid var(--color-control);
+    border-radius: 8px;
+    background: var(--color-surface);
+    font-size: 16px;
+    line-height: 1.45;
+    color: var(--color-ink);
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
+  }
+  .input::placeholder {
+    color: var(--color-ink-faint);
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgb(46 125 50 / 0.15); /* taste-skill-ignore shadow */
+  }
+  .dark .input:focus {
+    box-shadow: 0 0 0 3px rgb(143 206 149 / 0.22); /* taste-skill-ignore shadow */
+  }
+  select.input {
+    appearance: none;
+    padding-right: 34px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5 6 6.5l5-5' stroke='%238a998f' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+  }
+  textarea.input {
+    min-height: 0;
+    resize: vertical;
+  }
+
+  /* Sasaran sentuh ponsel: 44px untuk semua tombol dan kontrol form. */
+  @media (max-width: 640px) {
+    .btn {
+      min-height: 44px;
+      padding: 0 16px;
+      font-size: 15px;
+    }
+    .btn-sm {
+      min-height: 44px;
+      padding: 0 14px;
+      font-size: 14px;
+    }
+    .btn-lg {
+      min-height: 48px;
+    }
+    .input {
+      min-height: 44px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn:active {
+      transform: none;
+    }
+  }
+
+  .label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-ink-strong);
+  }
+  .hint {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-ink-faint);
+  }
+  .label-aksen {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-accent-ink);
+  }
+
+  .alert-error,
+  .alert-ok {
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 8px 12px;
+  }
+  .alert-error {
+    border-color: var(--color-danger-line);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+  }
+  .alert-ok {
+    border-color: var(--color-accent-track);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-ink);
+  }
+}
+
+/* Angka di kolom jumlah: digit tabel agar tidak goyang. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Prosa pembacaan di halaman thread — satu-satunya permukaan serif. */
+.prosa {
+  font-family: var(--font-serif);
+  font-size: 17.5px;
+  line-height: 1.72;
+  letter-spacing: 0.001em;
+}
+
+/* Tautan teks: target sentuh 24px, garis bawah saat hover. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: var(--color-accent-deep);
+  font-weight: 600;
+  transition: color 0.12s ease;
+}
+.link:hover {
+  color: var(--color-accent-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Baris tab yang bisa digeser di ponsel tanpa memunculkan scrollbar. */
+.scroll-x {
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* === Landing /mulai ===
+   Gerak hanya transform dan opasitas. Isi tidak pernah disembunyikan dari
+   HTML: kelas .lp-gerak baru dipasang setelah JavaScript siap. */
+.lp-mask {
+  display: block;
+  overflow: hidden;
+  /* Beri ruang untuk ascender/descender; margin negatif menjaga jarak baris. */
+  padding: 0.3em 0;
+  margin: -0.3em 0;
+}
+.lp-naik {
+  display: block;
+  animation: lp-naik 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes lp-naik {
+  from {
+    transform: translateY(150%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.lp-gerak [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms);
+}
+.lp-gerak [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hormati preferensi sistem: matikan transisi/animasi, bukan sekadar mempercepat. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lewati navigasi (WCAG 2.4.1) — hanya tampil saat difokus keyboard. */
+.lewati-nav {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.lewati-nav:focus {
+  left: 12px;
+  top: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--color-invert);
+  color: var(--color-on-invert);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Kursor kedip placeholder animasi di form buat diskusi. Hanya bergerak
+   bila pengguna tidak meminta gerak minim. */
+@media (prefers-reduced-motion: no-preference) {
+  .kedip {
+    animation: kedip 1.1s steps(1) infinite;
+  }
+}
+@keyframes kedip {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Transisi tema: matikan cross-fade bawaan View Transitions supaya animasi
+   lingkaran dari TombolTema bersih — tema lama diam, tema baru mengembang. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
